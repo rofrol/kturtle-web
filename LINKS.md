@@ -9,6 +9,7 @@
 - https://www.ianbicking.org/blog/2007/10/logo.html
 - https://liascript.github.io/course/?https://raw.githubusercontent.com/LiaTemplates/tiny-turtle/master/README.md#13
 - [Coding Challenge #121.1: Logo Interpreter - YouTube](https://www.youtube.com/watch?v=i-k04yzfMpw)
+  - http://cs.brown.edu/courses/bridge/1997/Resources/LogoTutorial.html
 
 ## Javascript
 
