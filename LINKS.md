@@ -79,9 +79,18 @@
 
 ## p5.js
 
-- If you want to have some graphics capability but don't want a full megabyte of goodies every time it loads, it's a quick process to wrap over the canvas API yourself and take only what you need without any latency. There's a great youtube series, codingmath, where the first episode shows you how to set up something simple.
-  - https://www.reddit.com/r/javascript/comments/6c8sc3/what_do_seasoned_javascript_programmers_think_of/dht8wkf/?utm_source=reddit&utm_medium=web2x&context=3
-  - [Coding Math: Episode 1 - Introduction - YouTube](https://www.youtube.com/watch?v=zm9bqSSiIdo&list=PL7wAPgl1JVvUEb0dIygHzO4698tmcwLk9)
+- There's information out there on how to get it to play nicely with others, but when you do that, a lot of the basic features start to look a whole lot like the raw canvas API.
+
+rect(x,y,w,h)
+
+Becomes
+
+cx.rect(x,y,w,h).
+
+If you want to have some graphics capability but don't want a full megabyte of goodies every time it loads, it's a quick process to wrap over the canvas API yourself and take only what you need without any latency. There's a great youtube series, codingmath, where the first episode shows you how to set up something simple.
+
+- https://www.reddit.com/r/javascript/comments/6c8sc3/what_do_seasoned_javascript_programmers_think_of/dht8wkf/
+- [Coding Math: Episode 1 - Introduction - YouTube](https://www.youtube.com/watch?v=zm9bqSSiIdo&list=PL7wAPgl1JVvUEb0dIygHzO4698tmcwLk9)
 - [Code! Programming with p5.js - YouTube](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA)
 - [1.1: Introduction - p5.js Tutorial - YouTube](https://www.youtube.com/watch?v=8j0UDiN7my4)
 
