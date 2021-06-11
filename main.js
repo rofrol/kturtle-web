@@ -11,20 +11,86 @@ window.onload = function () {
   //   ctx.stroke();
   // }
 
-  ctx.beginPath();
-  ctx.moveTo(75, 50);
-  ctx.lineTo(100, 75);
-  ctx.lineTo(100, 25);
-  ctx.fill();
+  // ctx.beginPath();
+  // ctx.moveTo(75, 50);
+  // ctx.lineTo(100, 75);
+  // ctx.lineTo(100, 25);
+  // ctx.fill();
 
   drawArrowhead(ctx, 75, 150, 90);
 
-  const t = turtle(ctx);
+  const t = turtle(ctx, {
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    angleInRadians: 0,
+    penDown: false,
+    penColor: "#000000",
+    lineWidth: 2,
+  });
+
   t.turnleft(90);
-  console.log(t.angle());
+  t.penDown = true;
+  console.log(t.status());
   t.turnright(10);
-  console.log(t.angle());
+  console.log(t.status());
+  t.forward(100);
 };
+
+function turtle(ct, { x, y, angleInRadians, penDown, penColor, lineWidth }) {
+  // go forward and draw a line along the path if the pen is down
+  const forward = (length) => {
+    // console.log('forward(' + length + ')');
+    // console.log(status());
+    var x0 = x,
+      y0 = y;
+    x += length * Math.sin(angleInRadians);
+    y += length * Math.cos(angleInRadians);
+    if (ct) {
+      if (penDown) {
+        // console.log(status());
+        ct.beginPath();
+        ct.lineWidth = lineWidth;
+        ct.strokeStyle = penColor;
+        ct.moveTo(x0, y0);
+        ct.lineTo(x, y);
+        ct.stroke();
+      }
+    } else {
+      ct.moveTo(x, y);
+    }
+  };
+  const backward = () => {
+    forward(-length);
+  };
+  const turnleft = (angleInDegrees) => {
+    angleInRadians = deg2rad((angleInDegrees + rad2deg(angleInRadians)) % 360);
+  };
+  const turnright = (angleInDegrees) => {
+    turnleft(-angleInDegrees);
+  };
+  const status = () =>
+    `"x = ${x}; y = ${y}; angleInRadians = ${angleInRadians}; angleInDegrees = ${rad2deg(
+      angleInRadians
+    )}; penDown = ${penDown}`;
+
+  return {
+    forward,
+    backward,
+    turnleft,
+    turnright,
+    status,
+    set penDown(value) {
+      penDown = value;
+    },
+  };
+}
+// https://stackoverflow.com/questions/9705123/how-can-i-get-sin-cos-and-tan-to-use-degrees-instead-of-radians/9705160#9705160
+function deg2rad(deg) {
+  return (deg * Math.PI) / 180;
+}
+function rad2deg(rad) {
+  return (rad * 180) / Math.PI;
+}
 
 // https://stackoverflow.com/questions/16135469/make-pointing-arrow-at-the-end-of-the-drawing-canvas/16137856#16137856
 function drawArrowhead(ctx, x, y, degrees) {
@@ -39,28 +105,4 @@ function drawArrowhead(ctx, x, y, degrees) {
   ctx.closePath();
   ctx.restore();
   ctx.fill();
-}
-
-function turtle(ctx) {
-  let angle = 0; // up, degrees
-
-  return {
-    // go forward and draw a line along the path if the pen is down
-    forward: () => {},
-    // go backward and draw a line along the path if the pen is down
-    backward: () => {},
-    // turn left by D degrees
-    turnleft: (d) => {
-      angle = (angle + d) % 360;
-    },
-    // turn right by D degrees
-    turnright: (d) => {
-      angle = (angle - d) % 360;
-    },
-    angle: () => angle,
-  };
-}
-// https://stackoverflow.com/questions/9705123/how-can-i-get-sin-cos-and-tan-to-use-degrees-instead-of-radians/9705160#9705160
-function deg2rad(degrees) {
-  return (degrees * Math.PI) / 180;
 }
