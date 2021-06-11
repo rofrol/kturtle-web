@@ -72,7 +72,9 @@
 
 ## p5.js
 
-- https://www.reddit.com/r/javascript/comments/6c8sc3/what_do_seasoned_javascript_programmers_think_of/dht8wkf/?utm_source=reddit&utm_medium=web2x&context=3
+- If you want to have some graphics capability but don't want a full megabyte of goodies every time it loads, it's a quick process to wrap over the canvas API yourself and take only what you need without any latency. There's a great youtube series, codingmath, where the first episode shows you how to set up something simple.
+  - https://www.reddit.com/r/javascript/comments/6c8sc3/what_do_seasoned_javascript_programmers_think_of/dht8wkf/?utm_source=reddit&utm_medium=web2x&context=3
+  - [Coding Math: Episode 1 - Introduction - YouTube](https://www.youtube.com/watch?v=zm9bqSSiIdo&list=PL7wAPgl1JVvUEb0dIygHzO4698tmcwLk9)
 
 ## Linenmayer system
 
