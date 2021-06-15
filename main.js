@@ -16,6 +16,7 @@ window.onload = function () {
     penColor: "#000000",
     lineWidth: 1,
     ctx,
+    canvas,
     ctxTop,
     canvasTop,
   });
@@ -39,6 +40,8 @@ window.onload = function () {
   t.forward(30);
   t.direction(45);
   t.forward(30);
+  t.center();
+  t.forward(30);
 };
 
 function turtle({
@@ -49,6 +52,7 @@ function turtle({
   penColor,
   lineWidth,
   ctx,
+  canvas,
   ctxTop,
   canvasTop,
 }) {
@@ -87,6 +91,13 @@ function turtle({
     angleInRadians = 2 * Math.PI - deg2rad(angleInDegrees);
     drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
   };
+  const center = () => {
+    const penDownPrev = penDown;
+    penDown = false;
+    x = canvas.width / 2;
+    y = canvas.height / 2;
+    penDown = penDownPrev;
+  };
   const logStatus = () =>
     console.log(
       `"x = ${x}; y = ${y}; angleInRadians = ${angleInRadians}; angleInDegrees = ${rad2deg(
@@ -100,6 +111,7 @@ function turtle({
     turnleft,
     turnright,
     direction,
+    center,
     set penDown(value) {
       penDown = value;
     },
