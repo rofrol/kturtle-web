@@ -41,6 +41,7 @@ window.onload = function () {
   t.direction(45);
   t.forward(30);
   t.center();
+  t.penwidth(2);
   t.direction(90);
   t.forward(30);
   t.go(100, 100);
@@ -126,6 +127,9 @@ function turtle({
     penDown = penDownPrev;
     drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
   };
+  const penwidth = (newLineWidth) => {
+    lineWidth = newLineWidth;
+  };
   const logStatus = () =>
     console.log(
       `"x = ${x}; y = ${y}; angleInRadians = ${angleInRadians}; angleInDegrees = ${rad2deg(
@@ -143,6 +147,7 @@ function turtle({
     go,
     gox,
     goy,
+    penwidth,
     set penDown(value) {
       penDown = value;
     },

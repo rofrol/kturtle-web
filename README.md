@@ -17,9 +17,9 @@ Subset of commands to implement:
 - [x] `go <X>, <Y>` - move turtle to position X, Y **without** drawing anything
 - [x] `gox <X>` - move turtle on the X axis to position X **without** drawing anything
 - [x] `goy <Y>`- move turtle on the Y axis to position Y **without** drawing anything
-- [ ] `penup` - set pen state to up (off)
-- [ ] `pendown` - set pen state to down (on)
-- [ ] `penwidth <W>` - set pen width to W (in pixels)
+- [x] `penup` - set pen state to up (off)
+- [x] `pendown` - set pen state to down (on)
+- [x] `penwidth <W>` - set pen width to W (in pixels)
 - [ ] `pencolor <R>,<G>,<B>` - set pen color to R, G, B
 
 ### Requirements
