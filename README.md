@@ -20,7 +20,7 @@ Subset of commands to implement:
 - [x] `penup` - set pen state to up (off)
 - [x] `pendown` - set pen state to down (on)
 - [x] `penwidth <W>` - set pen width to W (in pixels)
-- [ ] `pencolor <R>,<G>,<B>` - set pen color to R, G, B
+- [x] `pencolor <R>,<G>,<B>` - set pen color to R, G, B
 
 ### Requirements
 

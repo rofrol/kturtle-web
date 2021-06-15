@@ -42,6 +42,7 @@ window.onload = function () {
   t.forward(30);
   t.center();
   t.penwidth(2);
+  t.pencolor("#ff0000");
   t.direction(90);
   t.forward(30);
   t.go(100, 100);
@@ -130,6 +131,9 @@ function turtle({
   const penwidth = (newLineWidth) => {
     lineWidth = newLineWidth;
   };
+  const pencolor = (newPencolor) => {
+    penColor = newPencolor;
+  };
   const logStatus = () =>
     console.log(
       `"x = ${x}; y = ${y}; angleInRadians = ${angleInRadians}; angleInDegrees = ${rad2deg(
@@ -148,6 +152,7 @@ function turtle({
     gox,
     goy,
     penwidth,
+    pencolor,
     set penDown(value) {
       penDown = value;
     },
