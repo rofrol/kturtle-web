@@ -16,6 +16,7 @@ export class CanvasComponent implements OnInit {
 
   ngOnInit(): void {
     this.ctx = this.canvas!.nativeElement.getContext('2d')!;
+    this.animate();
   }
 
   animate(): void {
