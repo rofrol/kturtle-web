@@ -45,6 +45,8 @@ window.onload = function () {
   t.forward(30);
   t.go(100, 100);
   t.forward(30);
+  t.gox(30);
+  t.goy(10);
 };
 
 function turtle({
@@ -110,6 +112,20 @@ function turtle({
     penDown = penDownPrev;
     drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
   };
+  const gox = (x1) => {
+    const penDownPrev = penDown;
+    penDown = false;
+    x = canvas.width / 2 + x1;
+    penDown = penDownPrev;
+    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+  };
+  const goy = (y1) => {
+    const penDownPrev = penDown;
+    penDown = false;
+    y = canvas.height / 2 + y1;
+    penDown = penDownPrev;
+    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+  };
   const logStatus = () =>
     console.log(
       `"x = ${x}; y = ${y}; angleInRadians = ${angleInRadians}; angleInDegrees = ${rad2deg(
@@ -125,6 +141,8 @@ function turtle({
     direction,
     center,
     go,
+    gox,
+    goy,
     set penDown(value) {
       penDown = value;
     },
