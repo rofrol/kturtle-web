@@ -1,0 +1,26 @@
+:root {
+  --wrapper-border-width: brown;
+}
+
+$wrapper-border-width: 0;
+
+canvas {
+  display: block;
+}
+
+#wrapper {
+  position: relative;
+  width: calc(100% - 2 * #{$wrapper-border-width}px);
+  height: calc(100% - 2 * #{$wrapper-border-width}px);
+  overflow: hidden;
+  border: #{$wrapper-border-width}px solid blue;
+}
+
+#canvasTop,
+#canvasBottom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

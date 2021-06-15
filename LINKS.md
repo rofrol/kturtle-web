@@ -81,6 +81,7 @@
 
 ## Angular and Canvas
 
+- https://github.com/ElectroluxV2/CanvaPaint
 - https://medium.com/angular-in-depth/how-to-get-started-with-canvas-animations-in-angular-2f797257e5b4
 
 ## p5.js
