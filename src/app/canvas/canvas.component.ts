@@ -1,7 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
-console.log('devicePixelRatio :>> ', devicePixelRatio);
-
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
@@ -9,7 +7,10 @@ console.log('devicePixelRatio :>> ', devicePixelRatio);
 })
 export class CanvasComponent implements AfterViewInit {
 
-  // constructor() { }
+  constructor() {
+    this.w = 0;
+    this.h = 0;
+  }
 
   @ViewChild('canvas', { read: ElementRef })
   canvas!: ElementRef<HTMLCanvasElement>;
@@ -18,17 +19,22 @@ export class CanvasComponent implements AfterViewInit {
 
   private ctx!: CanvasRenderingContext2D;
   private ctxTop!: CanvasRenderingContext2D;
+  private w: number;
+  private h: number;
 
   ngAfterViewInit(): void {
     const canvas = this.canvas.nativeElement;
-    canvas.width = canvas.parentElement!.offsetWidth * devicePixelRatio;
-    canvas.height = canvas.parentElement!.offsetHeight * devicePixelRatio;
+    let rect = canvas.parentElement!.getBoundingClientRect();
+    this.w = rect.width * devicePixelRatio;
+    this.h = rect.height * devicePixelRatio;
+    canvas.width = this.w;
+    canvas.height = this.h;
     this.ctx = canvas.getContext('2d')!;
     // this.ctx!.scale(devicePixelRatio, devicePixelRatio);
 
     const canvasTop = this.canvasTop.nativeElement;
-    canvasTop.width = canvasTop.parentElement!.offsetWidth * devicePixelRatio;
-    canvasTop.height = canvasTop.parentElement!.offsetHeight * devicePixelRatio;
+    canvasTop.width = this.w;
+    canvasTop.height = this.h;
     this.ctxTop = canvasTop.getContext('2d')!;
     // this.ctxTop!.scale(devicePixelRatio, devicePixelRatio);
 
@@ -54,14 +60,14 @@ export class CanvasComponent implements AfterViewInit {
     const t = turtle({
       x: w / 2,
       y: h / 2,
+      w: this.w,
+      h: this.h,
       angleInRadians: 0,
       penDown: false,
       penColor: "#000000",
       lineWidth: 1,
       ctx: this.ctx,
-      canvas,
       ctxTop: this.ctxTop,
-      canvasTop,
     });
 
     t.penDown = true;
@@ -90,6 +96,7 @@ export class CanvasComponent implements AfterViewInit {
     t.forward(30);
     t.gox(30);
     t.goy(10);
+    t.forward(30);
   };
 }
 
@@ -97,14 +104,14 @@ export class CanvasComponent implements AfterViewInit {
 function turtle({
   x,
   y,
+  w,
+  h,
   angleInRadians,
   penDown,
   penColor,
   lineWidth,
   ctx,
-  canvas,
   ctxTop,
-  canvasTop,
 }: any) {
   // go forward and draw a line along the path if the pen is down
   const forward = (length: number) => {
@@ -125,51 +132,51 @@ function turtle({
     } else {
       ctx.moveTo(x, y);
     }
-    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const backward = () => {
     forward(-length);
   };
   const turnleft = (angleInDegrees: number) => {
     angleInRadians = deg2rad((angleInDegrees + rad2deg(angleInRadians)) % 360);
-    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const turnright = (angleInDegrees: number) => {
     turnleft(-angleInDegrees);
   };
   const direction = (angleInDegrees: any) => {
     angleInRadians = 2 * Math.PI - deg2rad(angleInDegrees);
-    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const center = () => {
     const penDownPrev = penDown;
     penDown = false;
-    x = canvas.width / 2 / devicePixelRatio;
-    y = canvas.height / 2 / devicePixelRatio;
+    x = w / 2;
+    y = h / 2;
     penDown = penDownPrev;
-    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const go = (x1: number, y1: number) => {
     const penDownPrev = penDown;
     penDown = false;
-    x = canvas.width / 2 / devicePixelRatio + x1;
-    y = canvas.height / 2 / devicePixelRatio + y1;
+    x = w / 2 + x1;
+    y = h / 2 + y1;
     penDown = penDownPrev;
-    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const gox = (x1: number) => {
     const penDownPrev = penDown;
     penDown = false;
-    x = canvas.width / 2 / devicePixelRatio + x1;
+    x = w / 2 + x1;
     penDown = penDownPrev;
-    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const goy = (y1: number) => {
     const penDownPrev = penDown;
     penDown = false;
-    y = canvas.height / 2 / devicePixelRatio + y1;
+    y = h / 2 + y1;
     penDown = penDownPrev;
-    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const penwidth = (newLineWidth: number) => {
     lineWidth = newLineWidth;
@@ -213,10 +220,10 @@ function rad2deg(rad: number) {
 }
 
 // https://stackoverflow.com/questions/16135469/make-pointing-arrow-at-the-end-of-the-drawing-canvas/16137856#16137856
-function drawArrowhead(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, x: number, y: number, radians: number) {
+function drawArrowhead(ctx: CanvasRenderingContext2D, w: number, h: number, x: number, y: number, radians: number) {
+  ctx.clearRect(0, 0, w, h);
   const height = 24;
   const width = 6;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.beginPath();
   const x1 = (height / 2) * Math.sin(radians);
