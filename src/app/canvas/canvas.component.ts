@@ -30,13 +30,11 @@ export class CanvasComponent implements AfterViewInit {
     canvas.width = this.w;
     canvas.height = this.h;
     this.ctx = canvas.getContext('2d')!;
-    // this.ctx!.scale(devicePixelRatio, devicePixelRatio);
 
     const canvasTop = this.canvasTop.nativeElement;
     canvasTop.width = this.w;
     canvasTop.height = this.h;
     this.ctxTop = canvasTop.getContext('2d')!;
-    // this.ctxTop!.scale(devicePixelRatio, devicePixelRatio);
 
     this.animate();
   }
@@ -113,7 +111,6 @@ function turtle({
   ctx,
   ctxTop,
 }: any) {
-  // go forward and draw a line along the path if the pen is down
   const forward = (length: number) => {
     var x0 = x,
       y0 = y;
