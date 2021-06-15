@@ -1,63 +1,71 @@
 window.onload = function () {
-  let canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d"),
-    width = (canvas.width = window.innerWidth),
-    height = (canvas.height = window.innerHeight);
+  let canvas = document.getElementById("canvasBottom"),
+    ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  let canvasTop = document.getElementById("canvasTop"),
+    ctxTop = canvasTop.getContext("2d");
+  canvasTop.width = window.innerWidth;
+  canvasTop.height = window.innerHeight;
 
-  // for (let i = 0; i < 100; i++) {
-  //   ctx.beginPath();
-  //   ctx.moveTo(Math.random() * width, Math.random() * height);
-  //   ctx.lineTo(Math.random() * width, Math.random() * height);
-  //   ctx.stroke();
-  // }
-
-  // ctx.beginPath();
-  // ctx.moveTo(75, 50);
-  // ctx.lineTo(100, 75);
-  // ctx.lineTo(100, 25);
-  // ctx.fill();
-
-  drawArrowhead(ctx, 75, 150, 90);
-
-  const t = turtle(ctx, {
+  const t = turtle({
     x: canvas.width / 2,
     y: canvas.height / 2,
     angleInRadians: 0,
     penDown: false,
     penColor: "#000000",
     lineWidth: 2,
+    ctx,
+    ctxTop,
+    canvasTop,
   });
 
-  t.turnleft(90);
+  // t.turnleft(90);
   t.penDown = true;
-  console.log(t.status());
+  // t.turnright(90);
+  t.turnright(45);
+  t.forward(60);
   t.turnright(10);
-  console.log(t.status());
-  t.forward(100);
+  t.forward(30);
+  t.turnright(10);
+  t.forward(30);
+  t.turnright(10);
+  t.forward(30);
+  t.turnright(10);
+  t.forward(30);
 };
 
-function turtle(ct, { x, y, angleInRadians, penDown, penColor, lineWidth }) {
+function turtle({
+  x,
+  y,
+  angleInRadians,
+  penDown,
+  penColor,
+  lineWidth,
+  ctx,
+  ctxTop,
+  canvasTop,
+}) {
   // go forward and draw a line along the path if the pen is down
   const forward = (length) => {
-    // console.log('forward(' + length + ')');
-    // console.log(status());
     var x0 = x,
       y0 = y;
-    x += length * Math.sin(angleInRadians);
-    y += length * Math.cos(angleInRadians);
-    if (ct) {
+    x -= length * Math.sin(angleInRadians);
+    y -= length * Math.cos(angleInRadians);
+    if (ctx) {
       if (penDown) {
-        // console.log(status());
-        ct.beginPath();
-        ct.lineWidth = lineWidth;
-        ct.strokeStyle = penColor;
-        ct.moveTo(x0, y0);
-        ct.lineTo(x, y);
-        ct.stroke();
+        logStatus();
+        ctx.beginPath();
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = penColor;
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x, y);
+        ctx.stroke();
       }
     } else {
-      ct.moveTo(x, y);
+      ctx.moveTo(x, y);
     }
+    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
   };
   const backward = () => {
     forward(-length);
@@ -68,41 +76,53 @@ function turtle(ct, { x, y, angleInRadians, penDown, penColor, lineWidth }) {
   const turnright = (angleInDegrees) => {
     turnleft(-angleInDegrees);
   };
-  const status = () =>
-    `"x = ${x}; y = ${y}; angleInRadians = ${angleInRadians}; angleInDegrees = ${rad2deg(
-      angleInRadians
-    )}; penDown = ${penDown}`;
+  const logStatus = () =>
+    console.log(
+      `"x = ${x}; y = ${y}; angleInRadians = ${angleInRadians}; angleInDegrees = ${rad2deg(
+        angleInRadians
+      )}; penDown = ${penDown}`
+    );
 
   return {
     forward,
     backward,
     turnleft,
     turnright,
-    status,
+    logStatus,
     set penDown(value) {
       penDown = value;
     },
   };
 }
+
 // https://stackoverflow.com/questions/9705123/how-can-i-get-sin-cos-and-tan-to-use-degrees-instead-of-radians/9705160#9705160
 function deg2rad(deg) {
   return (deg * Math.PI) / 180;
 }
+
 function rad2deg(rad) {
   return (rad * 180) / Math.PI;
 }
 
 // https://stackoverflow.com/questions/16135469/make-pointing-arrow-at-the-end-of-the-drawing-canvas/16137856#16137856
-function drawArrowhead(ctx, x, y, degrees) {
-  const radians = deg2rad(degrees);
+function drawArrowhead(ctx, canvas, x, y, radians) {
+  const height = 16;
+  const width = 10;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.beginPath();
-  ctx.translate(x, y);
-  ctx.rotate(radians);
+  const x1 = (height / 2) * Math.sin(radians);
+  const y1 = (height / 2) * Math.cos(radians);
+  ctx.translate(x - x1, y - y1);
+  ctx.rotate(-radians);
   ctx.moveTo(0, 0);
-  ctx.lineTo(5, 20);
-  ctx.lineTo(-5, 20);
+  ctx.lineTo(width, height);
+  ctx.lineTo(-width, height);
   ctx.closePath();
   ctx.restore();
-  ctx.fill();
+  ctx.strokeStyle = "#00ff00";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  // ctx.fillStyle = "#00ff00";
+  // ctx.fill();
 }

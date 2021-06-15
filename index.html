@@ -1,20 +1,39 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="main.js"></script>
     <style>
-       html, body {
-           margin: 0;
-       }
-       canvas {
-           display: block;
-       }
+      html,
+      body {
+        margin: 0;
+      }
+      canvas {
+        display: block;
+      }
+
+      #wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      #canvasTop,
+      #canvasBottom {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+      }
     </style>
-</head>
-<body>
-    <canvas id="canvas"></canvas>
-</body>
+  </head>
+  <body>
+    <div id="wrapper">
+      <canvas id="canvasBottom"></canvas>
+      <canvas id="canvasTop"></canvas>
+    </div>
+  </body>
 </html>

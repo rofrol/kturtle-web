@@ -23,7 +23,8 @@
 - https://github.com/inexorabletash/jslogo
   - https://inexorabletash.github.io/jslogo/
 - Chrome Extension https://github.com/DoctorLai/LogoTurtle
-- https://chrome.google.com/webstore/detail/kturtle-on-rollapp/ehefabgocebhgcdnckfhcmlfffiianip/related?hl=en
+- https://www.rollapp.com/app/kturtle
+  - https://chrome.google.com/webstore/detail/kturtle-on-rollapp/ehefabgocebhgcdnckfhcmlfffiianip/related?hl=en
 - https://github.com/1ntEgr8/turtlejs
 - https://github.com/okkindel/LogoTurtle
 - https://github.com/catseye/Erratic-Turtle-Graphics
