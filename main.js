@@ -33,6 +33,12 @@ window.onload = function () {
   t.forward(30);
   t.turnright(10);
   t.forward(30);
+  t.direction(90);
+  t.forward(30);
+  t.direction(180);
+  t.forward(30);
+  t.direction(45);
+  t.forward(30);
 };
 
 function turtle({
@@ -72,9 +78,14 @@ function turtle({
   };
   const turnleft = (angleInDegrees) => {
     angleInRadians = deg2rad((angleInDegrees + rad2deg(angleInRadians)) % 360);
+    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
   };
   const turnright = (angleInDegrees) => {
     turnleft(-angleInDegrees);
+  };
+  const direction = (angleInDegrees) => {
+    angleInRadians = 2 * Math.PI - deg2rad(angleInDegrees);
+    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
   };
   const logStatus = () =>
     console.log(
@@ -88,10 +99,11 @@ function turtle({
     backward,
     turnleft,
     turnright,
-    logStatus,
+    direction,
     set penDown(value) {
       penDown = value;
     },
+    logStatus,
   };
 }
 
@@ -106,8 +118,8 @@ function rad2deg(rad) {
 
 // https://stackoverflow.com/questions/16135469/make-pointing-arrow-at-the-end-of-the-drawing-canvas/16137856#16137856
 function drawArrowhead(ctx, canvas, x, y, radians) {
-  const height = 16;
-  const width = 10;
+  const height = 24;
+  const width = 6;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
   ctx.beginPath();
