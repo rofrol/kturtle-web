@@ -236,16 +236,11 @@ function drawArrowhead(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement,
 }
 
 function drawDiagonals(ctx: CanvasRenderingContext2D, w: number, h: number) {
-  ctx.beginPath();
-  ctx.lineWidth = 1;
   ctx.strokeStyle = '#eee';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(w, h);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = '#eee';
   ctx.moveTo(w, 0);
   ctx.lineTo(0, h);
   ctx.stroke();
