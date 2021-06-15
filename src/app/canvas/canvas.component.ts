@@ -25,39 +25,39 @@ export class CanvasComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     const canvas = this.canvas.nativeElement;
     let rect = canvas.parentElement!.getBoundingClientRect();
-    this.w = rect.width * devicePixelRatio;
-    this.h = rect.height * devicePixelRatio;
-    canvas.width = this.w;
-    canvas.height = this.h;
+    this.w = rect.width;;
+    this.h = rect.height;;
+    canvas.style.width = this.w + "px";
+    canvas.style.height = this.h + "px";
+    canvas.width = this.w * devicePixelRatio;
+    canvas.height = this.h * devicePixelRatio;
     this.ctx = canvas.getContext('2d')!;
+    this.ctx.scale(devicePixelRatio, devicePixelRatio);
 
     const canvasTop = this.canvasTop.nativeElement;
-    canvasTop.width = this.w;
-    canvasTop.height = this.h;
+    canvasTop.style.width = this.w + "px";
+    canvasTop.style.height = this.h + "px";
+    canvasTop.width = this.w * devicePixelRatio;
+    canvasTop.height = this.h * devicePixelRatio;
     this.ctxTop = canvasTop.getContext('2d')!;
+    this.ctxTop.scale(devicePixelRatio, devicePixelRatio);
 
     this.animate();
   }
 
   animate(): void {
-    const canvas = this.canvas!.nativeElement;
-    const canvasTop = this.canvasTop!.nativeElement;
-
     // this.ctx!.fillStyle = '#ddd';
-    // this.ctx!.fillRect(0, 0, canvas.width, canvas.height);
+    // this.ctx!.fillRect(0, 0, this.w, this.h);
     // this.ctx.fillStyle = 'red';
     // this.ctx.fillRect(0, 0, 125, 125);
     // this.ctx.fillStyle = 'blue';
     // this.ctx.fillRect(0, 0, 125, 125);
 
-    let rect = canvas.parentElement!.getBoundingClientRect();
-    const w = rect.width;
-    const h = rect.height;
-    drawDiagonals(this.ctx, w, h)
+    drawDiagonals(this.ctx, this.w, this.h)
 
     const t = turtle({
-      x: w / 2,
-      y: h / 2,
+      x: this.w / 2,
+      y: this.h / 2,
       w: this.w,
       h: this.h,
       angleInRadians: 0,
@@ -146,11 +146,8 @@ function turtle({
     drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const center = () => {
-    const penDownPrev = penDown;
-    penDown = false;
     x = w / 2;
     y = h / 2;
-    penDown = penDownPrev;
     drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const go = (x1: number, y1: number) => {

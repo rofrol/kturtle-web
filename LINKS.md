@@ -79,6 +79,10 @@
 - https://github.com/hwestphal/pxt-turtle
 - https://github.com/Plagiatus/turtle.ts
 
+## Canvas
+
+- When lines are blurry https://stackoverflow.com/questions/8696631/canvas-drawings-like-lines-are-blurry/59143499#59143499
+
 ## Angular and Canvas
 
 - https://github.com/ElectroluxV2/CanvaPaint
