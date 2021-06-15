@@ -46,19 +46,9 @@ export class CanvasComponent implements AfterViewInit {
     // this.ctx.fillStyle = 'blue';
     // this.ctx.fillRect(0, 0, 125, 125);
 
-    const x = canvas.width / 2;// / devicePixelRatio;
-    const y = canvas.height / 2;// / devicePixelRatio
-    console.log('x :>> ', x);
-    console.log('y :>> ', y);
     let rect = canvas.parentElement!.getBoundingClientRect();
-    // const w = canvas.parentElement!.offsetWidth;
-    // const h = canvas.parentElement!.offsetHeight;
     const w = rect.width;
     const h = rect.height;
-    console.log('w :>> ', w);
-    console.log('h :>> ', h);
-    const w2 = canvas.width;
-    console.log('w2 :>> ', w2);
 
     this.ctx.beginPath();
     this.ctx.lineWidth = 1;
@@ -75,8 +65,8 @@ export class CanvasComponent implements AfterViewInit {
     this.ctx.stroke();
 
     const t = turtle({
-      x: rect.width / 2,
-      y: rect.height / 2,
+      x: w / 2,
+      y: h / 2,
       angleInRadians: 0,
       penDown: false,
       penColor: "#000000",
