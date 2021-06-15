@@ -14,7 +14,7 @@ window.onload = function () {
     angleInRadians: 0,
     penDown: false,
     penColor: "#000000",
-    lineWidth: 2,
+    lineWidth: 1,
     ctx,
     ctxTop,
     canvasTop,
@@ -121,7 +121,7 @@ function drawArrowhead(ctx, canvas, x, y, radians) {
   ctx.closePath();
   ctx.restore();
   ctx.strokeStyle = "#00ff00";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1;
   ctx.stroke();
   // ctx.fillStyle = "#00ff00";
   // ctx.fill();
