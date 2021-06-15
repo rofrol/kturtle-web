@@ -1,5 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
+console.log('devicePixelRatio :>> ', devicePixelRatio);
+
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
@@ -19,16 +21,16 @@ export class CanvasComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const canvas = this.canvas.nativeElement;
-    canvas.height = canvas.parentElement!.offsetHeight * devicePixelRatio;
     canvas.width = canvas.parentElement!.offsetWidth * devicePixelRatio;
+    canvas.height = canvas.parentElement!.offsetHeight * devicePixelRatio;
     this.ctx = canvas.getContext('2d')!;
-    this.ctx!.scale(devicePixelRatio, devicePixelRatio);
+    // this.ctx!.scale(devicePixelRatio, devicePixelRatio);
 
     const canvasTop = this.canvasTop.nativeElement;
-    canvasTop.height = canvasTop.parentElement!.offsetHeight * devicePixelRatio;
     canvasTop.width = canvasTop.parentElement!.offsetWidth * devicePixelRatio;
+    canvasTop.height = canvasTop.parentElement!.offsetHeight * devicePixelRatio;
     this.ctxTop = canvasTop.getContext('2d')!;
-    this.ctxTop!.scale(devicePixelRatio, devicePixelRatio);
+    // this.ctxTop!.scale(devicePixelRatio, devicePixelRatio);
 
     this.animate();
   }
@@ -44,10 +46,37 @@ export class CanvasComponent implements AfterViewInit {
     // this.ctx.fillStyle = 'blue';
     // this.ctx.fillRect(0, 0, 125, 125);
 
+    const x = canvas.width / 2;// / devicePixelRatio;
+    const y = canvas.height / 2;// / devicePixelRatio
+    console.log('x :>> ', x);
+    console.log('y :>> ', y);
+    let rect = canvas.parentElement!.getBoundingClientRect();
+    // const w = canvas.parentElement!.offsetWidth;
+    // const h = canvas.parentElement!.offsetHeight;
+    const w = rect.width;
+    const h = rect.height;
+    console.log('w :>> ', w);
+    console.log('h :>> ', h);
+    const w2 = canvas.width;
+    console.log('w2 :>> ', w2);
+
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 1;
+    this.ctx.strokeStyle = '#eee';
+    this.ctx.moveTo(0, 0);
+    this.ctx.lineTo(w, h);
+    this.ctx.stroke();
+
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 1;
+    this.ctx.strokeStyle = '#eee';
+    this.ctx.moveTo(w, 0);
+    this.ctx.lineTo(0, h);
+    this.ctx.stroke();
 
     const t = turtle({
-      x: canvas.width / 2 / devicePixelRatio,
-      y: canvas.height / 2 / devicePixelRatio,
+      x: rect.width / 2,
+      y: rect.height / 2,
       angleInRadians: 0,
       penDown: false,
       penColor: "#000000",

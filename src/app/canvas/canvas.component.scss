@@ -1,11 +1,21 @@
-$wrapper-border-width: 0;
+textarea {
+  height: 100vh;
+}
+
+#app-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+}
 
 #wrapper {
   position: relative;
-  width: calc(100% - 2 * #{$wrapper-border-width}px);
-  height: calc(100% - 2 * #{$wrapper-border-width}px);
+  // width: 100%;
+  flex: 1;
+  align-self: stretch;
+  // height: calc(100% - 1px);
+  // object-fit: contain;
   overflow: hidden;
-  border: #{$wrapper-border-width}px solid blue;
+  // border: 1px solid rgb(0, 183, 255);
 }
 
 #canvasTop,
@@ -13,7 +23,10 @@ $wrapper-border-width: 0;
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
+  right: 0;
+  // width: 100%;
+  // height: 100%;
+  // object-fit: contain;
   display: block;
 }
