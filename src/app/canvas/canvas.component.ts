@@ -24,23 +24,15 @@ export class CanvasComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const canvas = this.canvas.nativeElement;
-    let rect = canvas.parentElement!.getBoundingClientRect();
-    this.w = rect.width;;
-    this.h = rect.height;;
-    canvas.style.width = this.w + "px";
-    canvas.style.height = this.h + "px";
-    canvas.width = this.w * devicePixelRatio;
-    canvas.height = this.h * devicePixelRatio;
-    this.ctx = canvas.getContext('2d')!;
-    this.ctx.scale(devicePixelRatio, devicePixelRatio);
-
     const canvasTop = this.canvasTop.nativeElement;
-    canvasTop.style.width = this.w + "px";
-    canvasTop.style.height = this.h + "px";
-    canvasTop.width = this.w * devicePixelRatio;
-    canvasTop.height = this.h * devicePixelRatio;
+    let rect = canvas.parentElement!.getBoundingClientRect();
+    this.w = rect.width;
+    this.h = rect.height;
+
+    this.ctx = canvas.getContext('2d')!;
+    setCanvas(canvas, this.ctx, this.w, this.h);
     this.ctxTop = canvasTop.getContext('2d')!;
-    this.ctxTop.scale(devicePixelRatio, devicePixelRatio);
+    setCanvas(canvasTop, this.ctxTop, this.w, this.h);
 
     this.animate();
   }
@@ -245,4 +237,12 @@ function drawDiagonals(ctx: CanvasRenderingContext2D, w: number, h: number) {
   ctx.moveTo(w, 0);
   ctx.lineTo(0, h);
   ctx.stroke();
+}
+
+function setCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, w: number, h: number) {
+  canvas.style.width = w + "px";
+  canvas.style.height = h + "px";
+  canvas.width = w * devicePixelRatio;
+  canvas.height = h * devicePixelRatio;
+  ctx.scale(devicePixelRatio, devicePixelRatio);
 }
