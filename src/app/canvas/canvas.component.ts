@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-canvas',
@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CanvasComponent implements OnInit {
 
-  constructor() { }
+  // constructor() { }
+
+  @ViewChild('canvas', { static: true })
+  canvas: ElementRef<HTMLCanvasElement> | undefined;
+
+  private ctx: CanvasRenderingContext2D | undefined;
 
   ngOnInit(): void {
+    this.ctx = this.canvas!.nativeElement.getContext('2d')!;
+  }
+
+  animate(): void {
+    this.ctx!.fillStyle = 'red';
+    this.ctx!.fillRect(0, 0, 5, 5);
   }
 
 }

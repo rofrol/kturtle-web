@@ -79,6 +79,10 @@
 - https://github.com/hwestphal/pxt-turtle
 - https://github.com/Plagiatus/turtle.ts
 
+## Angular and Canvas
+
+- https://medium.com/angular-in-depth/how-to-get-started-with-canvas-animations-in-angular-2f797257e5b4
+
 ## p5.js
 
 - There's information out there on how to get it to play nicely with others, but when you do that, a lot of the basic features start to look a whole lot like the raw canvas API.
