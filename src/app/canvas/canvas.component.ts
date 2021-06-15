@@ -49,20 +49,7 @@ export class CanvasComponent implements AfterViewInit {
     let rect = canvas.parentElement!.getBoundingClientRect();
     const w = rect.width;
     const h = rect.height;
-
-    this.ctx.beginPath();
-    this.ctx.lineWidth = 1;
-    this.ctx.strokeStyle = '#eee';
-    this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(w, h);
-    this.ctx.stroke();
-
-    this.ctx.beginPath();
-    this.ctx.lineWidth = 1;
-    this.ctx.strokeStyle = '#eee';
-    this.ctx.moveTo(w, 0);
-    this.ctx.lineTo(0, h);
-    this.ctx.stroke();
+    drawDiagonals(this.ctx, w, h)
 
     const t = turtle({
       x: w / 2,
@@ -246,4 +233,20 @@ function drawArrowhead(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement,
   ctx.stroke();
   // ctx.fillStyle = "#00ff00";
   // ctx.fill();
+}
+
+function drawDiagonals(ctx: CanvasRenderingContext2D, w: number, h: number) {
+  ctx.beginPath();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = '#eee';
+  ctx.moveTo(0, 0);
+  ctx.lineTo(w, h);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = '#eee';
+  ctx.moveTo(w, 0);
+  ctx.lineTo(0, h);
+  ctx.stroke();
 }
