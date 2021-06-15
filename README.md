@@ -14,7 +14,7 @@ Subset of commands to implement:
 - [x] `turnright <D>` - turn right by D degrees
 - [x] `direction <D>` - set turtle in a specific direction by D being degrees and 0 degrees being up
 - [x] `center` - move turtle to the center **without** drawing anything
-- [ ] `go <X>, <Y>` - move turtle to position X, Y **without** drawing anything
+- [x] `go <X>, <Y>` - move turtle to position X, Y **without** drawing anything
 - [ ] `gox <X>` - move turtle on the X axis to position X **without** drawing anything
 - [ ] `goy <Y>`- move turtle on the Y axis to position Y **without** drawing anything
 - [ ] `penup` - set pen state to up (off)

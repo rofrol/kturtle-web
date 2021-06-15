@@ -41,6 +41,9 @@ window.onload = function () {
   t.direction(45);
   t.forward(30);
   t.center();
+  t.direction(90);
+  t.forward(30);
+  t.go(100, 100);
   t.forward(30);
 };
 
@@ -97,6 +100,15 @@ function turtle({
     x = canvas.width / 2;
     y = canvas.height / 2;
     penDown = penDownPrev;
+    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
+  };
+  const go = (x1, y1) => {
+    const penDownPrev = penDown;
+    penDown = false;
+    x = canvas.width / 2 + x1;
+    y = canvas.height / 2 + y1;
+    penDown = penDownPrev;
+    drawArrowhead(ctxTop, canvasTop, x, y, angleInRadians);
   };
   const logStatus = () =>
     console.log(
@@ -112,6 +124,7 @@ function turtle({
     turnright,
     direction,
     center,
+    go,
     set penDown(value) {
       penDown = value;
     },
