@@ -1,5 +1,8 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
+import { fromEvent, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
@@ -34,10 +37,8 @@ export class CanvasComponent implements AfterViewInit {
     this.ctxTop = canvasTop.getContext('2d')!;
     setCanvas(canvasTop, this.ctxTop, this.w, this.h);
 
-    this.animate();
-  }
+    drawDiagonals(this.ctx, this.w, this.h);
 
-  animate(): void {
     // this.ctx!.fillStyle = '#ddd';
     // this.ctx!.fillRect(0, 0, this.w, this.h);
     // this.ctx.fillStyle = 'red';
@@ -45,7 +46,6 @@ export class CanvasComponent implements AfterViewInit {
     // this.ctx.fillStyle = 'blue';
     // this.ctx.fillRect(0, 0, 125, 125);
 
-    drawDiagonals(this.ctx, this.w, this.h)
 
     const t = turtle({
       x: this.w / 2,
@@ -60,34 +60,49 @@ export class CanvasComponent implements AfterViewInit {
       ctxTop: this.ctxTop,
     });
 
-    t.penDown = true;
-    t.turnright(45);
-    t.forward(60);
-    t.turnright(10);
-    t.forward(30);
-    t.turnright(10);
-    t.forward(30);
-    t.turnright(10);
-    t.forward(30);
-    t.turnright(10);
-    t.forward(30);
-    t.direction(90);
-    t.forward(30);
-    t.direction(180);
-    t.forward(30);
-    t.direction(45);
-    t.forward(30);
-    t.center();
-    t.penwidth(2);
-    t.pencolor("#ff0000");
-    t.direction(90);
-    t.forward(30);
-    t.go(100, 100);
-    t.forward(30);
-    t.gox(30);
-    t.goy(10);
-    t.forward(30);
-  };
+    // t.penDown = true;
+    // t.turnright(45);
+    // t.forward(60);
+    // t.turnright(10);
+    // t.forward(30);
+    // t.turnright(10);
+    // t.forward(30);
+    // t.turnright(10);
+    // t.forward(30);
+    // t.turnright(10);
+    // t.forward(30);
+    // t.direction(90);
+    // t.forward(30);
+    // t.direction(180);
+    // t.forward(30);
+    // t.direction(45);
+    // t.forward(30);
+    // t.center();
+    // t.penwidth(2);
+    // t.pencolor("#ff0000");
+    // t.direction(90);
+    // t.forward(30);
+    // t.go(100, 100);
+    // t.forward(30);
+    // t.gox(30);
+    // t.goy(10);
+    // t.forward(30);
+
+    const searchBox = document.getElementById('search-box') as HTMLInputElement;
+    parseAndRun(t, searchBox.innerHTML)
+
+    const typeahead = fromEvent(searchBox, 'input').pipe(
+      map(e => (e.target as HTMLInputElement).value),
+      filter(text => text.length > 2),
+      debounceTime(10),
+      distinctUntilChanged(),
+    );
+
+    typeahead.subscribe(data => {
+      // Handle the data from the API\
+      parseAndRun(t, data);
+    });
+  }
 }
 
 // TODO: add type annotation for turtle parameter
@@ -123,7 +138,7 @@ function turtle({
     }
     drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
-  const backward = () => {
+  const backward = (length: number) => {
     forward(-length);
   };
   const turnleft = (angleInDegrees: number) => {
@@ -170,6 +185,11 @@ function turtle({
   const pencolor = (newPencolor: string) => {
     penColor = newPencolor;
   };
+  const reset = () => {
+    ctx.clearRect(0, 0, w, h);
+    center();
+    angleInRadians = 0;
+  };
   const logStatus = () =>
     console.log(
       `"x = ${x}; y = ${y}; angleInRadians = ${angleInRadians}; angleInDegrees = ${rad2deg(
@@ -192,6 +212,7 @@ function turtle({
     set penDown(value: boolean) {
       penDown = value;
     },
+    reset,
     logStatus,
   };
 }
@@ -245,4 +266,58 @@ function setCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, w: 
   canvas.width = w * devicePixelRatio;
   canvas.height = h * devicePixelRatio;
   ctx.scale(devicePixelRatio, devicePixelRatio);
+}
+
+function parseAndRun(t: any, data: string) {
+  const commands = data.trim().split('\n');
+  // console.log(`commands:\n${JSON.stringify(commands)}`);
+  commands.map((str: string) => {
+    const [cmd, val1, val2] = str.split(' ');
+    switch (cmd) {
+      case 'FORWARD':
+        t.forward(parseInt(val1, 10));
+        break;
+      case 'BACKWARD':
+        t.backward(parseInt(val1, 10));
+        break;
+      case 'TURNLEFT':
+        t.turnleft(parseInt(val1, 10));
+        break;
+      case 'TURNRIGHT':
+        t.turnright(parseInt(val1, 10));
+        break;
+      case 'DIRECTION':
+        t.direction(parseInt(val1, 10));
+        break;
+      case 'CENTER':
+        t.center()
+        break;
+      case 'GO':
+        t.go(parseInt(val1, 10), parseInt(val2, 10))
+        break;
+      case 'GOX':
+        t.gox(parseInt(val1, 10))
+        break;
+      case 'GOY':
+        t.goy(parseInt(val1, 10))
+        break;
+      case 'PENWIDTH':
+        t.penwidth(parseInt(val1, 10))
+        break;
+      case 'PENCOLOR':
+        t.pencolor(val1)
+        break;
+      case 'PENDOWN':
+        t.penDown = true;
+        break;
+      case 'PENUP':
+        t.penDown = false;
+        break;
+      case 'RESET':
+        t.reset();
+        break;
+      default:
+        console.log(`Uknown command str: ${str}`)
+    }
+  });
 }
