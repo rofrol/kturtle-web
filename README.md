@@ -24,11 +24,11 @@ Subset of commands to implement:
 
 ### Requirements
 
-- [ ] For technologies use Angular 12 and TypeScript - implement it as a web application.
-- [ ] Use an existing UI framework and make it look good and usable to the best of your abilities.
+- [x] For technologies use Angular 12 and TypeScript - implement it as a web application.
+- [x] Use an existing UI framework and make it look good and usable to the best of your abilities.
 - [ ] (Optional but nice to have) Allow journey of the turtle to be animated with configurable speed
 - [ ] (Optional but nice to have) Syntax highlighting
-- [ ] Use RxJS to react to changes in the code and on every change (with debounce) restart rendering
+- [x] Use RxJS to react to changes in the code and on every change (with debounce) restart rendering
 - [ ] Whenever requirements are not clear - use your best judgement to make the application cool
 
 ## Angular and this project
