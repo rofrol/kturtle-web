@@ -29,6 +29,7 @@ export class CanvasComponent implements AfterViewInit {
     this.h = rect.height;
 
     this.ctx = canvas.getContext('2d')!;
+
     setCanvas(canvas, this.ctx, this.w, this.h);
     drawDiagonals(this.ctx, this.w, this.h);
 
@@ -82,6 +83,7 @@ export class CanvasComponent implements AfterViewInit {
 
     const searchBox = document.getElementById('search-box') as HTMLInputElement;
     parseAndRun(t, searchBox.innerHTML)
+    t.drawArrowhead()
 
     const typeahead = fromEvent(searchBox, 'input').pipe(
       map(e => (e.target as HTMLInputElement).value),
@@ -170,7 +172,7 @@ function turtle({
     penColor = newPencolor;
   };
   const reset = () => {
-    ctx.clearRect(0, 0, w, h);
+    // ctx.clearRect(0, 0, w, h);
     center();
     angleInRadians = 0;
     ctx.lineWidth = lineWidth;
@@ -183,22 +185,18 @@ function turtle({
     );
   // https://stackoverflow.com/questions/16135469/make-pointing-arrow-at-the-end-of-the-drawing-canvas/16137856#16137856
   function drawArrowhead() {
-    const height = 24;
-    const width = 6;
+    const height = 21;
+    const width = 15;
     ctx.save();
     ctx.beginPath();
-    const x1 = (height / 2) * Math.sin(angleInRadians);
-    const y1 = (height / 2) * Math.cos(angleInRadians);
-    ctx.translate(x - x1, y - y1);
-    ctx.rotate(-angleInRadians);
-    ctx.moveTo(0, 0);
-    ctx.lineTo(width, height);
-    ctx.lineTo(-width, height);
-    ctx.closePath();
-    ctx.restore();
-    ctx.strokeStyle = "#00ff00";
-    ctx.lineWidth = 1;
-    ctx.stroke();
+    var img = new Image();   // Create new img element
+    img.src = 'assets/turtle.png'; // Set source path
+    img.onload = function () {
+      ctx.translate(x, y);
+      ctx.rotate(-angleInRadians);
+      ctx.drawImage(img, -width / 2, -height / 2, width, height);
+      ctx.restore();
+    };
   }
   return {
     forward,
