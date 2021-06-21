@@ -172,7 +172,7 @@ function turtle({
     penColor = newPencolor;
   };
   const reset = () => {
-    // ctx.clearRect(0, 0, w, h);
+    ctx.clearRect(0, 0, w, h);
     center();
     angleInRadians = 0;
     ctx.lineWidth = lineWidth;
@@ -197,6 +197,7 @@ function turtle({
       ctx.drawImage(img, -width / 2, -height / 2, width, height);
       ctx.restore();
     };
+
   }
   return {
     forward,
