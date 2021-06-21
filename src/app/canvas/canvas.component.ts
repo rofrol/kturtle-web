@@ -10,6 +10,24 @@ import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs
 })
 export class CanvasComponent implements AfterViewInit {
 
+  onExport() {
+    console.log("Export")
+
+    var canvas = document.getElementById("mycanvas");
+    var image = this.canvas.nativeElement.toDataURL("image/png");
+
+    fetch('http://localhost:3000/save', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "image": image,
+      })
+    });
+  };
+
   constructor() {
     this.w = 0;
     this.h = 0;
