@@ -9,7 +9,7 @@ app.use(express.json());
 const port = 3000;
 
 app.post("/save", (req, res) => {
-  const fileName = "decoded-image.png";
+  const fileName = `${Date.now()}.png`;
   ImageDataURI.outputFile(req.body.image, fileName);
 });
 
