@@ -99,7 +99,6 @@ export class CanvasComponent implements AfterViewInit {
     );
 
     typeahead.subscribe(data => {
-      // Handle the data from the API\
       parseAndRun(t, data);
     });
   }
@@ -118,6 +117,7 @@ function turtle({
   ctx,
   ctxTop,
 }: any) {
+  // ctx.lineCap = "round";
   const forward = (length: number) => {
     var x0 = x,
       y0 = y;
