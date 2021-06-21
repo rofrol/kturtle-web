@@ -17,26 +17,19 @@ export class CanvasComponent implements AfterViewInit {
 
   @ViewChild('canvas', { read: ElementRef })
   canvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('canvasTop', { read: ElementRef })
-  canvasTop!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D;
-  private ctxTop!: CanvasRenderingContext2D;
   private w: number;
   private h: number;
 
   ngAfterViewInit(): void {
     const canvas = this.canvas.nativeElement;
-    const canvasTop = this.canvasTop.nativeElement;
     let rect = canvas.parentElement!.getBoundingClientRect();
     this.w = rect.width;
     this.h = rect.height;
 
     this.ctx = canvas.getContext('2d')!;
     setCanvas(canvas, this.ctx, this.w, this.h);
-    this.ctxTop = canvasTop.getContext('2d')!;
-    setCanvas(canvasTop, this.ctxTop, this.w, this.h);
-
     drawDiagonals(this.ctx, this.w, this.h);
 
     // this.ctx!.fillStyle = '#ddd';
@@ -57,7 +50,6 @@ export class CanvasComponent implements AfterViewInit {
       penColor: "#000000",
       lineWidth: 1,
       ctx: this.ctx,
-      ctxTop: this.ctxTop,
     });
 
     // t.penDown = true;
@@ -115,7 +107,6 @@ function turtle({
   penColor,
   lineWidth,
   ctx,
-  ctxTop,
 }: any) {
   // ctx.lineCap = "round";
   const forward = (length: number) => {
@@ -136,26 +127,22 @@ function turtle({
     } else {
       ctx.moveTo(x, y);
     }
-    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const backward = (length: number) => {
     forward(-length);
   };
   const turnleft = (angleInDegrees: number) => {
     angleInRadians = deg2rad((angleInDegrees + rad2deg(angleInRadians)) % 360);
-    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const turnright = (angleInDegrees: number) => {
     turnleft(-angleInDegrees);
   };
   const direction = (angleInDegrees: any) => {
     angleInRadians = 2 * Math.PI - deg2rad(angleInDegrees);
-    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const center = () => {
     x = w / 2;
     y = h / 2;
-    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const go = (x1: number, y1: number) => {
     const penDownPrev = penDown;
@@ -163,21 +150,18 @@ function turtle({
     x = w / 2 + x1;
     y = h / 2 + y1;
     penDown = penDownPrev;
-    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const gox = (x1: number) => {
     const penDownPrev = penDown;
     penDown = false;
     x = w / 2 + x1;
     penDown = penDownPrev;
-    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const goy = (y1: number) => {
     const penDownPrev = penDown;
     penDown = false;
     y = h / 2 + y1;
     penDown = penDownPrev;
-    drawArrowhead(ctxTop, w, h, x, y, angleInRadians);
   };
   const penwidth = (newLineWidth: number) => {
     lineWidth = newLineWidth;
@@ -189,6 +173,7 @@ function turtle({
     ctx.clearRect(0, 0, w, h);
     center();
     angleInRadians = 0;
+    ctx.lineWidth = lineWidth;
   };
   const logStatus = () =>
     console.log(
@@ -196,7 +181,25 @@ function turtle({
         angleInRadians
       )}; penDown = ${penDown}`
     );
-
+  // https://stackoverflow.com/questions/16135469/make-pointing-arrow-at-the-end-of-the-drawing-canvas/16137856#16137856
+  function drawArrowhead() {
+    const height = 24;
+    const width = 6;
+    ctx.save();
+    ctx.beginPath();
+    const x1 = (height / 2) * Math.sin(angleInRadians);
+    const y1 = (height / 2) * Math.cos(angleInRadians);
+    ctx.translate(x - x1, y - y1);
+    ctx.rotate(-angleInRadians);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(width, height);
+    ctx.lineTo(-width, height);
+    ctx.closePath();
+    ctx.restore();
+    ctx.strokeStyle = "#00ff00";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
   return {
     forward,
     backward,
@@ -214,6 +217,7 @@ function turtle({
     },
     reset,
     logStatus,
+    drawArrowhead,
   };
 }
 
@@ -224,29 +228,6 @@ function deg2rad(deg: number) {
 
 function rad2deg(rad: number) {
   return (rad * 180) / Math.PI;
-}
-
-// https://stackoverflow.com/questions/16135469/make-pointing-arrow-at-the-end-of-the-drawing-canvas/16137856#16137856
-function drawArrowhead(ctx: CanvasRenderingContext2D, w: number, h: number, x: number, y: number, radians: number) {
-  ctx.clearRect(0, 0, w, h);
-  const height = 24;
-  const width = 6;
-  ctx.save();
-  ctx.beginPath();
-  const x1 = (height / 2) * Math.sin(radians);
-  const y1 = (height / 2) * Math.cos(radians);
-  ctx.translate(x - x1, y - y1);
-  ctx.rotate(-radians);
-  ctx.moveTo(0, 0);
-  ctx.lineTo(width, height);
-  ctx.lineTo(-width, height);
-  ctx.closePath();
-  ctx.restore();
-  ctx.strokeStyle = "#00ff00";
-  ctx.lineWidth = 1;
-  ctx.stroke();
-  // ctx.fillStyle = "#00ff00";
-  // ctx.fill();
 }
 
 function drawDiagonals(ctx: CanvasRenderingContext2D, w: number, h: number) {
@@ -320,4 +301,5 @@ function parseAndRun(t: any, data: string) {
         console.log(`Uknown command str: ${str}`)
     }
   });
+  t.drawArrowhead();
 }
