@@ -39,12 +39,11 @@ export class CanvasComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const canvas = this.canvas.nativeElement;
-    let rect = canvas.parentElement!.getBoundingClientRect();
-    this.w = rect.width;
-    this.h = rect.height;
-
     this.ctx = canvas.getContext('2d')!;
 
+    const rect = canvas.parentElement!.getBoundingClientRect();
+    this.w = rect.width;
+    this.h = rect.height;
     setCanvas(canvas, this.ctx, this.w, this.h);
     drawDiagonals(this.ctx, this.w, this.h);
 
