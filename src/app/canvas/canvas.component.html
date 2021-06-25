@@ -2,18 +2,35 @@
   <div><button (click)="onExport()">Export</button></div>
   <textarea id="search-box">
 RESET
-PENWIDTH 6
-PENDOWN
-FORWARD 100
+RESET
+PENUP
+PENCOLOR #ff0000
+FORWARD 40
 TURNRIGHT 90
 PENWIDTH 2
-FORWARD 100
+PENDOWN
+FORWARD 40
 TURNRIGHT 45
-PENWIDTH 20
-FORWARD 100
-
+FORWARD 40
+TURNLEFT 90
+FORWARD 40
+TURNRIGHT 45
+PENWIDTH 2
+FORWARD 40
+TURNRIGHT 45
+FORWARD 40
+TURNRIGHT 45
+FORWARD 40
+TURNRIGHT 45
+FORWARD 139
+TURNRIGHT 90
+FORWARD 139
+TURNRIGHT 45
+FORWARD 40
+TURNRIGHT 45
+FORWARD 40
 </textarea>
   <div id="wrapper">
-    <canvas id="canvasBottom" #canvas></canvas>
+    <canvas id="canvas" #canvas></canvas>
   </div>
 </div>
