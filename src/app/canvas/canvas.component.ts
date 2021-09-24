@@ -254,6 +254,7 @@ function drawDiagonals(ctx: CanvasRenderingContext2D, w: number, h: number) {
   ctx.stroke();
 }
 
+// https://stackoverflow.com/questions/8696631/canvas-drawings-like-lines-are-blurry/59143499#59143499
 function setCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, w: number, h: number) {
   canvas.style.width = w + "px";
   canvas.style.height = h + "px";
