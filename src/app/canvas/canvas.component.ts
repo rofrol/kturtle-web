@@ -257,9 +257,10 @@ function drawDiagonals(ctx: CanvasRenderingContext2D, w: number, h: number) {
 function setCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, w: number, h: number) {
   canvas.style.width = w + "px";
   canvas.style.height = h + "px";
-  canvas.width = w * devicePixelRatio;
-  canvas.height = h * devicePixelRatio;
-  ctx.scale(devicePixelRatio, devicePixelRatio);
+  const scale = window.devicePixelRatio;
+  canvas.width = w * scale;
+  canvas.height = h * scale;
+  ctx.scale(scale, scale);
 }
 
 function parseAndRun(t: any, data: string) {
